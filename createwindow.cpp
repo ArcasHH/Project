@@ -11,12 +11,15 @@ CreateWindow::CreateWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     generateButtons();
+    ui->radioButton_vertical->setChecked(true);
 
     num4 = 1;
     num3 = 2;
     num2 = 3;
     num1 = 4;
-    iteration = 10;
+    iteration = 0;
+    for (int i = 0; i != 10; ++i)
+        alive[i] = 999;
 }
 
 
@@ -104,11 +107,13 @@ void CreateWindow::buttonClicked() {
             for (int n = 0; n != size; n++) {
                 ButtonField[i+n][j]->setStyleSheet("background-color: red");
                 ButtonField[i+n][j]->ship = true;
-                Btn->index = iteration;
+                qDebug() << "it: " << iteration;
+                ButtonField[i+n][j]->index = iteration;
             }
             if(iteration < 10){
+                qDebug() << "size: " << size;
                 alive[iteration] = size;
-                iteration = iteration + 1;
+                ++iteration;
 
             }
             num = num - 1;
@@ -171,7 +176,7 @@ void CreateWindow::buttonClicked() {
         new_label = QString::number(num1, 'g', 20);
         ui->label_1->setText(new_label);
     }
-    //qDebug() << "Pressed: " <<alive[1]<<alive[2]<<alive[3]<<alive[4]<<alive[5]<<alive[6]<<alive[7]<<alive[8]<<alive[9]<< alive[10];
+   //qDebug() << "Pressed: " <<alive[1]<<alive[2]<<alive[3]<<alive[4]<<alive[5]<<alive[6]<<alive[7]<<alive[8]<<alive[9]<< alive[10];
 }
 
 CreateWindow::~CreateWindow()
@@ -210,6 +215,9 @@ void CreateWindow::on_pushButton_accept_clicked()
 {
     if(num4 + num3 + num2 + num1 != 0){//////////////////////////////////
         ui->label_accept->setText("УРА");
+//        for (int i = 0; i != 10; ++i)
+//            qDebug() << alive[i];
+        qDebug() << "New window";
         game = new Battle{nullptr, ButtonField, alive};
 
         game->show();

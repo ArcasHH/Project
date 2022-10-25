@@ -19,7 +19,7 @@ public:
     ~Battle();
     void generateEnemyField();
     void CreateYourField();
-    int alive[10];
+    int *alive;
 
 public slots:
     void buttonClicked_en();
