@@ -22,6 +22,8 @@ public:
     int num3;
     int num2;
     int num1;
+    int iteration;
+    int alive[10];
 
 public slots:
     void buttonClicked();
@@ -36,6 +38,7 @@ private:
     Ui::CreateWindow *ui;
     FieldCell ** *ButtonField;
     Battle *game;
+
 };
 
 #endif // CREATEWINDOW_H

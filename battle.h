@@ -15,10 +15,11 @@ class Battle : public QWidget
     Q_OBJECT
 
 public:
-    explicit Battle(QWidget *parent, FieldCell ***Field);
+    explicit Battle(QWidget *parent, FieldCell ***Field, int *ptr);
     ~Battle();
     void generateEnemyField();
     void CreateYourField();
+    int alive[10];
 
 public slots:
     void buttonClicked_en();

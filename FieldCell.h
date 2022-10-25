@@ -8,7 +8,7 @@ struct FieldCell : public QPushButton {
     int y;
     bool available = true;
     bool ship = false;
-
+    int index;
 public:
     FieldCell(int x_in, int y_in) : x{x_in}, y{y_in} {}
 };

@@ -16,6 +16,7 @@ CreateWindow::CreateWindow(QWidget *parent) :
     num3 = 2;
     num2 = 3;
     num1 = 4;
+    iteration = 10;
 }
 
 
@@ -48,7 +49,7 @@ void CreateWindow::generateButtons() {
 void CreateWindow::buttonClicked() {
     QObject *Sender = QObject::sender();
     FieldCell *Btn = static_cast<FieldCell*>(Sender);
-    //qDebug() << "Pressed: " << Btn->x << ' ' << Btn->y;
+    qDebug() << "Pressed: " << Btn->x << ' ' << Btn->y;
     int size = 0;
     bool a = true;
     int i = Btn->x;
@@ -103,6 +104,12 @@ void CreateWindow::buttonClicked() {
             for (int n = 0; n != size; n++) {
                 ButtonField[i+n][j]->setStyleSheet("background-color: red");
                 ButtonField[i+n][j]->ship = true;
+                Btn->index = iteration;
+            }
+            if(iteration < 10){
+                alive[iteration] = size;
+                iteration = iteration + 1;
+
             }
             num = num - 1;
         }
@@ -127,13 +134,18 @@ void CreateWindow::buttonClicked() {
                     }
                     if( i + 1 <= 9 && j + n <= 9){
                         ButtonField[i+1][j+n]->setStyleSheet("background-color: rgb(100, 100, 100)");
-                        ButtonField[i+1][j+n  ]->available = false;
+                        ButtonField[i+1][j+n]->available = false;
                     }
                 }
             }
             for (int n = 0; n != size; ++n) {
                 ButtonField[i][j+n]->setStyleSheet("background-color: red");
                 ButtonField[i][j+n]->ship = true;
+                Btn->index = iteration;
+            }
+            if(iteration < 10){
+                alive[iteration] = size;
+                iteration = iteration + 1;
             }
             num = num - 1;
         }
@@ -159,7 +171,7 @@ void CreateWindow::buttonClicked() {
         new_label = QString::number(num1, 'g', 20);
         ui->label_1->setText(new_label);
     }
-
+    //qDebug() << "Pressed: " <<alive[1]<<alive[2]<<alive[3]<<alive[4]<<alive[5]<<alive[6]<<alive[7]<<alive[8]<<alive[9]<< alive[10];
 }
 
 CreateWindow::~CreateWindow()
@@ -198,9 +210,11 @@ void CreateWindow::on_pushButton_accept_clicked()
 {
     if(num4 + num3 + num2 + num1 != 0){//////////////////////////////////
         ui->label_accept->setText("УРА");
-        game = new Battle{nullptr, ButtonField};
+        game = new Battle{nullptr, ButtonField, alive};
+
         game->show();
         this->hide();
+
     }
     else
         QMessageBox::warning(this, "", "НЕ ВСЕ КОРАБЛИ НА ПОЛЕ БОЯ (если не влезают, то очистите поле и попробуйте снова");
