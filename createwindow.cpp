@@ -13,8 +13,8 @@ CreateWindow::CreateWindow(QWidget *parent, controller *c, int turn) :
 {
     ui->setupUi(this);
 
-    connect(ui->createBtn, &QPushButton::clicked, this, &createField::fieldCreated);
-    connect(C, &controller::fReady, this, &createField::enemyFieldCreated);
+    //connect(ui->createBtn, &QPushButton::clicked, this, &createField::fieldCreated);
+    //connect(C, &controller::fReady, this, &CreateWindow::enemyFieldCreated);
 
     generateButtons();
     ui->radioButton_vertical->setChecked(true);
@@ -27,6 +27,19 @@ CreateWindow::CreateWindow(QWidget *parent, controller *c, int turn) :
     for (int i = 0; i != 10; ++i)
         alive[i] = 999;
 }
+
+void CreateWindow::fieldCreated() {
+    C->sendFieldReady();//контроллер
+    ui->pushButton_accept->setDisabled(true);
+    My = true;
+    checkready();
+}
+
+void CreateWindow::enemyFieldCreated() {
+    En = true;
+    checkready();
+}
+
 
 
 void CreateWindow::on_pushButton_back_clicked()//сделать нормальный выход в меню
@@ -215,20 +228,33 @@ void CreateWindow::on_pushButton_clear_clicked()
              ButtonField[i][j]->available = true;
         }
 }
-
-
-void CreateWindow::on_pushButton_accept_clicked()
-{
-    if(num4 + num3 + num2 + num1 != 0){//////////////////////////////////
+void CreateWindow::checkready() {
+    if (!(My && En))
+        return;
+    else if(num4 + num3 + num2 + num1 == 0){
         ui->label_accept->setText("УРА");
-//        for (int i = 0; i != 10; ++i)
-//            qDebug() << alive[i];
-        qDebug() << "New window";
         game = new Battle{nullptr, ButtonField, alive};
-
         game->show();
         this->hide();
+    }
+}
 
+void CreateWindow::on_pushButton_accept_clicked()//CreateButton
+{
+    //if(num4 + num3 + num2 + num1 != 0){
+        //ui->label_accept->setText("УРА");
+//        for (int i = 0; i != 10; ++i)
+//            qDebug() << alive[i];
+        //qDebug() << "New window";
+        //game = new Battle{nullptr, ButtonField, alive};
+
+        //game->show();
+        //this->hide();
+
+    //}
+    if(num4 + num3 + num2 + num1 == 0){
+        ui->label_accept->setText("ЖДЕМ...");
+        qDebug() << "New window";
     }
     else
         QMessageBox::warning(this, "", "НЕ ВСЕ КОРАБЛИ НА ПОЛЕ БОЯ (если не влезают, то очистите поле и попробуйте снова");

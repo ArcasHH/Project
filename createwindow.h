@@ -4,7 +4,7 @@
 #include <QWidget>
 #include "FieldCell.h"
 #include "battle.h"
-#include "control.h"
+//#include "control.h"
 #include "communicator.h"
 
 namespace Ui {
@@ -30,6 +30,9 @@ public:
 public slots:
     void buttonClicked();
     void generateButtons();
+
+    void enemyFieldCreated();
+    void fieldCreated();
 
 private slots:
     void on_pushButton_back_clicked();
