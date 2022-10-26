@@ -1,12 +1,12 @@
-#include "createwindow.h"
-#include "ui_createwindow.h"
+#include "createfield.h"
+#include "ui_createfield.h"
 #include "communicator.h"
 
 #include <QPushButton>
 #include <QDebug>
 #include <QMessageBox>
 
-CreateWindow::CreateWindow(QWidget *parent, controller *c, int turn) :
+CreateField::CreateField(QWidget *parent, controller *c, int turn) :
     QWidget(parent),
     ui(new Ui::CreateWindow),
     C{c}, t{turn}
@@ -14,7 +14,7 @@ CreateWindow::CreateWindow(QWidget *parent, controller *c, int turn) :
     ui->setupUi(this);
 
     //connect(ui->createBtn, &QPushButton::clicked, this, &createField::fieldCreated);
-    //connect(C, &controller::fReady, this, &CreateWindow::enemyFieldCreated);
+    //connect(C, &controller::fReady, this, &CreateField::enemyFieldCreated);
 
     generateButtons();
     ui->radioButton_vertical->setChecked(true);
@@ -28,26 +28,26 @@ CreateWindow::CreateWindow(QWidget *parent, controller *c, int turn) :
         alive[i] = 999;
 }
 
-void CreateWindow::fieldCreated() {
+void CreateField::fieldCreated() {
     C->sendFieldReady();//контроллер
     ui->pushButton_accept->setDisabled(true);
     My = true;
     checkready();
 }
 
-void CreateWindow::enemyFieldCreated() {
+void CreateField::enemyFieldCreated() {
     En = true;
     checkready();
 }
 
 
 
-void CreateWindow::on_pushButton_back_clicked()//сделать нормальный выход в меню
+void CreateField::on_pushButton_back_clicked()//сделать нормальный выход в меню
 {
     close();
 }
 
-void CreateWindow::generateButtons() {
+void CreateField::generateButtons() {
     QGridLayout &Field = *ui->fieldGrid;
 
     ButtonField = new FieldCell**[10];
@@ -68,7 +68,7 @@ void CreateWindow::generateButtons() {
 }
 
 
-void CreateWindow::buttonClicked() {
+void CreateField::buttonClicked() {
     QObject *Sender = QObject::sender();
     FieldCell *Btn = static_cast<FieldCell*>(Sender);
     qDebug() << "Pressed: " << Btn->x << ' ' << Btn->y;
@@ -198,7 +198,7 @@ void CreateWindow::buttonClicked() {
    //qDebug() << "Pressed: " <<alive[1]<<alive[2]<<alive[3]<<alive[4]<<alive[5]<<alive[6]<<alive[7]<<alive[8]<<alive[9]<< alive[10];
 }
 
-CreateWindow::~CreateWindow()
+CreateField::~CreateField()
 {
     for (int i = 0; i != 10; ++i)
         for (int j = 0; j != 10; ++j)
@@ -211,7 +211,7 @@ CreateWindow::~CreateWindow()
     delete ui;
 }
 
-void CreateWindow::on_pushButton_clear_clicked()
+void CreateField::on_pushButton_clear_clicked()
 {
     //ui->label_accept->setText("");
     num4 = 1;
@@ -228,7 +228,7 @@ void CreateWindow::on_pushButton_clear_clicked()
              ButtonField[i][j]->available = true;
         }
 }
-void CreateWindow::checkready() {
+void CreateField::checkready() {
     if (!(My && En))
         return;
     else if(num4 + num3 + num2 + num1 == 0){
@@ -239,7 +239,7 @@ void CreateWindow::checkready() {
     }
 }
 
-void CreateWindow::on_pushButton_accept_clicked()//CreateButton
+void CreateField::on_pushButton_accept_clicked()//CreateButton
 {
     //if(num4 + num3 + num2 + num1 != 0){
         //ui->label_accept->setText("УРА");

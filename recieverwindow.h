@@ -2,7 +2,7 @@
 #define RECIEVERWINDOW_H
 
 #include <QWidget>
-#include "createwindow.h"
+#include "createfield.h"
 
 namespace Ui {
 class RecieverWindow;
@@ -33,7 +33,7 @@ private slots:
 private:
     Ui::RecieverWindow *ui;
 
-    CreateWindow *field = nullptr;
+    CreateField *field = nullptr;
 
     QTcpSocket *TcpS = nullptr;
     void prepareLayout();

@@ -1,7 +1,7 @@
 #include "menu.h"
 #include "ui_menu.h"
 #include "server.h"
-#include "createwindow.h"
+#include "createfield.h"
 
 Menu::Menu(QWidget *parent)
     : QMainWindow(parent)
@@ -30,7 +30,7 @@ void Menu::on_pushButton_exit_clicked()
 
 void Menu::on_pushButton_solo_clicked()
 {
-    window = new CreateWindow(nullptr, new AIController, 1);
+    window = new CreateField(nullptr, new AIController, 1);
     window->show();
     this->hide();
 }

@@ -2,7 +2,7 @@
 #define MENU_H
 
 #include <QMainWindow>
-#include "createwindow.h"
+#include "createfield.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Menu; }
@@ -25,6 +25,6 @@ private slots:
 
 private:
     Ui::Menu *ui;
-    CreateWindow *window;
+    CreateField *window;
 };
 #endif // MENU_H

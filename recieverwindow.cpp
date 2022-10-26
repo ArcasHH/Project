@@ -3,7 +3,7 @@
 
 #include "SharedDeata.h"
 #include "communicator.h"
-#include "createwindow.h"
+#include "createfield.h"
 
 #include <QtWidgets>
 #include <QtNetwork>
@@ -63,7 +63,7 @@ void RecieverWindow::startListen() {
 }
 
 void RecieverWindow::createFieldW(int turn) {
-    field = new CreateWindow(nullptr, new NetController(TcpS), turn);
+    field = new CreateField{nullptr, new NetController(TcpS), turn};
     field->show();
     this->hide();
 }

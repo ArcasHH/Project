@@ -11,10 +11,11 @@ CONFIG += c++11
 
 SOURCES += \
     battle.cpp \
-    createwindow.cpp \
+    createfield.cpp \
     main.cpp \
     menu.cpp \
     recieverwindow.cpp \
+    senderwindow.cpp \
     server.cpp
 
 HEADERS += \
@@ -23,17 +24,19 @@ HEADERS += \
     SharedDeata.h \
     battle.h \
     communicator.h \
-    createwindow.h \
+    createfield.h \
     menu.h \
     point.h \
     recieverwindow.h \
+    senderwindow.h \
     server.h
 
 FORMS += \
     battle.ui \
-    createwindow.ui \
+    createfield.ui \
     menu.ui \
     recieverwindow.ui \
+    senderwindow.ui \
     server.ui
 
 # Default rules for deployment.

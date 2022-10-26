@@ -1,24 +1,23 @@
-#ifndef CREATEWINDOW_H
-#define CREATEWINDOW_H
+#ifndef CREATEFIELD_H
+#define CREATEFIELD_H
 
 #include <QWidget>
 #include "FieldCell.h"
 #include "battle.h"
-//#include "control.h"
 #include "communicator.h"
 
 namespace Ui {
-class CreateWindow;
+    class CreateWindow;
 }
 class QPushButton;
 
-class CreateWindow : public QWidget
+class CreateField : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit CreateWindow(QWidget *parent, controller *c, int turn);
-    ~CreateWindow();
+    explicit CreateField(QWidget *parent, controller *c, int turn);
+    ~CreateField();
 
     int num4;
     int num3;
@@ -54,4 +53,4 @@ private:
 
 };
 
-#endif // CREATEWINDOW_H
+#endif // CREATEFIELD_H
