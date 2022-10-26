@@ -4,6 +4,8 @@
 #include <QWidget>
 #include "FieldCell.h"
 #include "battle.h"
+#include "control.h"
+#include "communicator.h"
 
 namespace Ui {
 class CreateWindow;
@@ -15,9 +17,9 @@ class CreateWindow : public QWidget
     Q_OBJECT
 
 public:
-    CreateWindow(QWidget *parent = nullptr);
-    void generateButtons();
+    explicit CreateWindow(QWidget *parent, controller *c, int turn);
     ~CreateWindow();
+
     int num4;
     int num3;
     int num2;
@@ -27,6 +29,7 @@ public:
 
 public slots:
     void buttonClicked();
+    void generateButtons();
 
 private slots:
     void on_pushButton_back_clicked();
@@ -38,6 +41,13 @@ private:
     Ui::CreateWindow *ui;
     FieldCell ** *ButtonField;
     Battle *game;
+
+    void checkready();
+
+    controller *C;
+    int t;
+    bool My = false;
+    bool En = false;
 
 };
 

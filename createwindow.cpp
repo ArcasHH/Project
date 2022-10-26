@@ -1,15 +1,21 @@
 #include "createwindow.h"
 #include "ui_createwindow.h"
+#include "communicator.h"
 
 #include <QPushButton>
 #include <QDebug>
 #include <QMessageBox>
 
-CreateWindow::CreateWindow(QWidget *parent) :
+CreateWindow::CreateWindow(QWidget *parent, controller *c, int turn) :
     QWidget(parent),
-    ui(new Ui::CreateWindow)
+    ui(new Ui::CreateWindow),
+    C{c}, t{turn}
 {
     ui->setupUi(this);
+
+    connect(ui->createBtn, &QPushButton::clicked, this, &createField::fieldCreated);
+    connect(C, &controller::fReady, this, &createField::enemyFieldCreated);
+
     generateButtons();
     ui->radioButton_vertical->setChecked(true);
 
@@ -23,7 +29,7 @@ CreateWindow::CreateWindow(QWidget *parent) :
 }
 
 
-void CreateWindow::on_pushButton_back_clicked()
+void CreateWindow::on_pushButton_back_clicked()//сделать нормальный выход в меню
 {
     close();
 }
@@ -226,6 +232,5 @@ void CreateWindow::on_pushButton_accept_clicked()
     }
     else
         QMessageBox::warning(this, "", "НЕ ВСЕ КОРАБЛИ НА ПОЛЕ БОЯ (если не влезают, то очистите поле и попробуйте снова");
-
 }
 

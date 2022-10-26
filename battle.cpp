@@ -88,10 +88,13 @@ void Battle::buttonClicked_en() {
     //     draw black;
     //  else
     //     draw white;
-    if(Btn->ship == false)
+    if(Btn->ship == false){
         Btn->setStyleSheet("background-color: white");
+        ui->label->setText("МИМО...");
+    }
     else if (Btn->ship == true){
         Btn->setStyleSheet("background-color: red");
+        ui->label->setText("РАНИЛ!");
         // TODO remake
         alive[Btn->index] -= 1;
         //Btn->ship = false;
@@ -101,6 +104,7 @@ void Battle::buttonClicked_en() {
 //        ButtonField_enemy[i-1][j-1]->setStyleSheet("background-color: rgb(100, 100, 100)");
         if( alive[Btn->index] <= 0){
             Btn->setStyleSheet("background-color: black");
+            ui->label->setText("УБИЛ!");
         }
         qDebug() << "alive: " << alive[Btn->index];
         }

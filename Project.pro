@@ -1,4 +1,5 @@
 QT       += core gui
+QT += network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -13,19 +14,26 @@ SOURCES += \
     createwindow.cpp \
     main.cpp \
     menu.cpp \
+    recieverwindow.cpp \
     server.cpp
 
 HEADERS += \
+    AIPlayer.h \
     FieldCell.h \
+    SharedDeata.h \
     battle.h \
+    communicator.h \
     createwindow.h \
     menu.h \
+    point.h \
+    recieverwindow.h \
     server.h
 
 FORMS += \
     battle.ui \
     createwindow.ui \
     menu.ui \
+    recieverwindow.ui \
     server.ui
 
 # Default rules for deployment.

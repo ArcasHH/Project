@@ -16,8 +16,8 @@
   <widget class="QPushButton" name="back">
    <property name="geometry">
     <rect>
-     <x>290</x>
-     <y>250</y>
+     <x>20</x>
+     <y>260</y>
      <width>80</width>
      <height>21</height>
     </rect>
@@ -26,7 +26,7 @@
     <string>НАЗАД</string>
    </property>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>140</x>
@@ -37,14 +37,14 @@
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="QPushButton" name="pushButton_server">
+     <widget class="QPushButton" name="pushButton_reciever">
       <property name="text">
        <string>СВОЙ СЕРВЕР</string>
       </property>
      </widget>
     </item>
     <item>
-     <widget class="QPushButton" name="pushButton_client">
+     <widget class="QPushButton" name="pushButton_sender">
       <property name="text">
        <string>ПРИСОЕДИНИТЬСЯ</string>
       </property>
