@@ -12,6 +12,7 @@ CONFIG += c++11
 SOURCES += \
     battle.cpp \
     createfield.cpp \
+    enemyfields.cpp \
     main.cpp \
     menu.cpp \
     recieverwindow.cpp \
@@ -25,6 +26,7 @@ HEADERS += \
     battle.h \
     communicator.h \
     createfield.h \
+    enemyfields.h \
     menu.h \
     point.h \
     recieverwindow.h \

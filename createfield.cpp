@@ -1,6 +1,7 @@
 #include "createfield.h"
 #include "ui_createfield.h"
 #include "communicator.h"
+#include "menu.h"
 
 #include <QPushButton>
 #include <QDebug>
@@ -13,8 +14,8 @@ CreateField::CreateField(QWidget *parent, controller *c, int turn) :
 {
     ui->setupUi(this);
 
-    //connect(ui->createBtn, &QPushButton::clicked, this, &createField::fieldCreated);
-    //connect(C, &controller::fReady, this, &CreateField::enemyFieldCreated);
+    connect(ui->pushButton_accept, &QPushButton::clicked, this, &CreateField::fieldCreated);
+    connect(C, &controller::fReady, this, &CreateField::enemyFieldCreated);
 
     generateButtons();
     ui->radioButton_vertical->setChecked(true);
@@ -40,10 +41,10 @@ void CreateField::enemyFieldCreated() {
     checkready();
 }
 
-
-
 void CreateField::on_pushButton_back_clicked()//сделать нормальный выход в меню
 {
+    ui->pushButton_clear->click();
+    //Menu::window->show();
     close();
 }
 
@@ -214,6 +215,7 @@ CreateField::~CreateField()
 void CreateField::on_pushButton_clear_clicked()
 {
     //ui->label_accept->setText("");
+    iteration = 0;
     num4 = 1;
     num3 = 2;
     num2 = 3;
@@ -222,18 +224,20 @@ void CreateField::on_pushButton_clear_clicked()
     ui->label_3->setText(QString::number(num3, 'g', 20));
     ui->label_2->setText(QString::number(num2, 'g', 20));
     ui->label_1->setText(QString::number(num1, 'g', 20));
-    for (int i = 0; i != 10; ++i)
+    for (int i = 0; i != 10; ++i){
+        alive[i] = 999;
         for (int j = 0; j != 10; ++j){
              ButtonField[i][j]->setStyleSheet("background-color: grey");
              ButtonField[i][j]->available = true;
         }
+    }
 }
 void CreateField::checkready() {
-    if (!(My && En))
+    if ((My && En))
         return;
     else if(num4 + num3 + num2 + num1 == 0){
         ui->label_accept->setText("УРА");
-        game = new Battle{nullptr, ButtonField, alive};
+        game = new Battle(nullptr, C, t);
         game->show();
         this->hide();
     }
@@ -241,17 +245,7 @@ void CreateField::checkready() {
 
 void CreateField::on_pushButton_accept_clicked()//CreateButton
 {
-    //if(num4 + num3 + num2 + num1 != 0){
-        //ui->label_accept->setText("УРА");
-//        for (int i = 0; i != 10; ++i)
-//            qDebug() << alive[i];
-        //qDebug() << "New window";
-        //game = new Battle{nullptr, ButtonField, alive};
-
-        //game->show();
-        //this->hide();
-
-    //}
+    checkready();
     if(num4 + num3 + num2 + num1 == 0){
         ui->label_accept->setText("ЖДЕМ...");
         qDebug() << "New window";

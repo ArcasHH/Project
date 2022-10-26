@@ -30,6 +30,7 @@ void Menu::on_pushButton_exit_clicked()
 
 void Menu::on_pushButton_solo_clicked()
 {
+
     window = new CreateField(nullptr, new AIController, 1);
     window->show();
     this->hide();

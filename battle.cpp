@@ -1,33 +1,54 @@
 #include "battle.h"
 #include "ui_battle.h"
 #include "FieldCell.h"
+#include "enemyfields.h"
 //#include "createfieldwindow.h"
 #include <QDebug>
 
-Battle::Battle(QWidget *parent, FieldCell ***Field, int *ptr) :
+Battle::Battle(QWidget *parent, controller *control_in, int turn) :
     QWidget(parent),
     ui(new Ui::Battle),
-    ButtonField{Field}
+    //ButtonField{Field}
+    control(control_in)
 {
     ui->setupUi(this);
+
+    connect(control, &controller::resReady, this, &Battle::readRes);
+    connect(control, &controller::pReady, this, &Battle::readP);
+
+    setTurnLabel(turn);
+
     generateEnemyField();
     CreateYourField();
-    connect(ui->ExitButton, SIGNAL(clicked()), this, SLOT(close()));
-    alive = ptr;
+    //alive = ptr;
 //    for (int i = 0; i != 10; ++i)
 //        qDebug() << alive[i];
+}
 
+void Battle::setTurnLabel(int turn) {
+    QString t = turn ? "ВАШ ХОД" : "ХОД ВРАГА";
+    ui->label_turn->setText(t);
+}
 
-//    connect(control, &controller::resReady, this, &battle::readRes);
-//    connect(control, &controller::pReady, this, &battle::readP);
+void Battle::readRes(Result isHit) {
+    QString R = isHit == Result::Hit ? "РАНИЛ!" : isHit == Result::Kill ? "УБИЛ!!" : "МИМО...";
+    ui->label_win->setText(tr("recived res: %1").arg(R));
 
+    setTurnLabel(0);
+}
+
+void Battle::readP(Point P) {
+    ui->label_win->setText("recieved p: " + QString::number(P.x) + ' ' + QString::number(P.y));
+    qDebug() << P.x << ' ' << P.y;
+//    ui->responce->setText(tr("recived p: %1 %1").arg(P.x).arg(P.y));
+    control->sendFeedback(Result::Kill);
+    setTurnLabel(1);
 }
 
 Battle::~Battle()
 {
     delete ui;
 }
-
 
 void Battle::generateEnemyField() {
     QGridLayout &Field = *ui->gridLayout_enemy;
@@ -44,8 +65,8 @@ void Battle::generateEnemyField() {
             Btn->setStyleSheet("background-color: grey");
             ButtonField_enemy[i][j] = Btn;
             Btn->available = true;
-            Btn->ship = ButtonField[j][i]->ship;
-            Btn->index = ButtonField[j][i]->index;
+            Btn->ship = ButtonField_en[i][j]->ship;
+            Btn->index = ButtonField_en[i][j]->index;
             Field.addWidget(Btn, i, j);
             connect(Btn, SIGNAL(clicked()), this, SLOT(buttonClicked_en()));
         }
@@ -75,8 +96,14 @@ void Battle::buttonClicked_en() {
     QObject *Sender = QObject::sender();
     FieldCell *Btn = static_cast<FieldCell*>(Sender);
     qDebug() << "Pressed: " << Btn->x << ' ' << Btn->y << ' ' << Btn->index;
-    int i = Btn->x;
-    int j = Btn->y;
+    int x = Btn->x;
+    int y = Btn->y;
+
+    Point P;
+    P.x = x;
+    P.y = y;
+
+    control->sendTurn(P);
 
     //contorller->sendTurn(Point(i, j));
     // }
@@ -109,3 +136,9 @@ void Battle::buttonClicked_en() {
         qDebug() << "alive: " << alive[Btn->index];
         }
 }
+
+void Battle::on_ExitButton_clicked()
+{
+    close();
+}
+

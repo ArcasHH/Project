@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include "FieldCell.h"
+#include "communicator.h"
 //#include "createfieldwindow.h"
 
 
@@ -15,7 +16,7 @@ class Battle : public QWidget
     Q_OBJECT
 
 public:
-    explicit Battle(QWidget *parent, FieldCell ***Field, int *ptr);
+    explicit Battle(QWidget *parent, controller *control_in, int turn);
     ~Battle();
     void generateEnemyField();
     void CreateYourField();
@@ -24,9 +25,18 @@ public:
 public slots:
     void buttonClicked_en();
 
+    void readRes(Result);
+    void readP(Point);
+
+private slots:
+    void on_ExitButton_clicked();
+
 private:
     Ui::Battle *ui;
+    controller *control = nullptr;
+    void setTurnLabel(int turn);
     FieldCell ** *ButtonField_enemy;
+    FieldCell ** *ButtonField_en;
     FieldCell ** *ButtonField;
    // CreateFieldWindow *field;
 };
