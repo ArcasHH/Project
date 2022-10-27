@@ -16,7 +16,7 @@ class Battle : public QWidget
     Q_OBJECT
 
 public:
-    explicit Battle(QWidget *parent, controller *control_in, int turn);
+    explicit Battle(QWidget *parent, controller *control_in, int turn, FieldCell ***);
     ~Battle();
     void generateEnemyField();
     void CreateYourField();
@@ -36,7 +36,6 @@ private:
     controller *control = nullptr;
     void setTurnLabel(int turn);
     FieldCell ** *ButtonField_enemy;
-    FieldCell ** *ButtonField_en;
     FieldCell ** *ButtonField;
    // CreateFieldWindow *field;
 };

@@ -4,11 +4,16 @@
 #include "enemyfields.h"
 //#include "createfieldwindow.h"
 #include <QDebug>
+#include <QMessageBox>
 
-Battle::Battle(QWidget *parent, controller *control_in, int turn) :
+int Px = 0;
+int Py = 0;
+bool win = false;
+
+Battle::Battle(QWidget *parent, controller *control_in, int turn, FieldCell *** Field) :
     QWidget(parent),
     ui(new Ui::Battle),
-    //ButtonField{Field}
+    ButtonField{Field},
     control(control_in)
 {
     ui->setupUi(this);
@@ -26,6 +31,7 @@ Battle::Battle(QWidget *parent, controller *control_in, int turn) :
 }
 
 void Battle::setTurnLabel(int turn) {
+
     QString t = turn ? "ВАШ ХОД" : "ХОД ВРАГА";
     ui->label_turn->setText(t);
 }
@@ -34,14 +40,39 @@ void Battle::readRes(Result isHit) {
     QString R = isHit == Result::Hit ? "РАНИЛ!" : isHit == Result::Kill ? "УБИЛ!!" : "МИМО...";
     ui->label_win->setText(tr("recived res: %1").arg(R));
 
+    switch (isHit) {
+    case Result::Miss:
+        ButtonField_enemy[Px][Py]->setStyleSheet("background-color: white");
+        ui->label_act->setText("МИМО...");
+        break;
+    case Result::Hit:
+        ButtonField_enemy[Px][Py]->setStyleSheet("background-color: red");
+        ui->label_act->setText("РАНИЛ!");
+        break;
+    case Result::Kill:
+        ButtonField_enemy[Px][Py]->setStyleSheet("background-color: black");
+        ui->label_act->setText("УБИЛ!!!");
+        break;
+    }
+
     setTurnLabel(0);
 }
 
 void Battle::readP(Point P) {
     ui->label_win->setText("recieved p: " + QString::number(P.x) + ' ' + QString::number(P.y));
     qDebug() << P.x << ' ' << P.y;
+    //qDebug() << "rerererererere" << alive[ButtonField[P.x][P.y]->index];
 //    ui->responce->setText(tr("recived p: %1 %1").arg(P.x).arg(P.y));
-    control->sendFeedback(Result::Kill);
+    if (ButtonField[P.x][P.y]->ship) {
+       control->sendFeedback(Result::Hit);
+       //alive[ButtonField[Px][Py]->index] -=1;
+       //if(alive[ButtonField[P.x][P.y]->index]<= 0)
+           //control->sendFeedback(Result::Kill);
+
+    }
+    else
+        control->sendFeedback(Result::Miss);
+
     setTurnLabel(1);
 }
 
@@ -65,8 +96,6 @@ void Battle::generateEnemyField() {
             Btn->setStyleSheet("background-color: grey");
             ButtonField_enemy[i][j] = Btn;
             Btn->available = true;
-            Btn->ship = ButtonField_en[i][j]->ship;
-            Btn->index = ButtonField_en[i][j]->index;
             Field.addWidget(Btn, i, j);
             connect(Btn, SIGNAL(clicked()), this, SLOT(buttonClicked_en()));
         }
@@ -93,16 +122,20 @@ void Battle::CreateYourField(){
 //      controller->sendRes(miss)
 
 void Battle::buttonClicked_en() {
+
     QObject *Sender = QObject::sender();
     FieldCell *Btn = static_cast<FieldCell*>(Sender);
     qDebug() << "Pressed: " << Btn->x << ' ' << Btn->y << ' ' << Btn->index;
-    int x = Btn->x;
-    int y = Btn->y;
+    Px = Btn->x;
+    Py = Btn->y;
 
     Point P;
-    P.x = x;
-    P.y = y;
-
+    P.x = Px;
+    P.y = Py;
+    if(alive[0]<=0 && alive[1]<=0 && alive[2]<=0 && alive[3]<=0 && alive[4]<=0 && alive[5]<=0 && alive[6]<=0 &&
+            alive[7]<=0 && alive[8]<=0 && alive[9]<=0){
+        QMessageBox::information(this, "","УРА!!!ПОБЕДА!!!!");
+     }
     control->sendTurn(P);
 
     //contorller->sendTurn(Point(i, j));
@@ -115,6 +148,7 @@ void Battle::buttonClicked_en() {
     //     draw black;
     //  else
     //     draw white;
+    /*
     if(Btn->ship == false){
         Btn->setStyleSheet("background-color: white");
         ui->label->setText("МИМО...");
@@ -135,6 +169,7 @@ void Battle::buttonClicked_en() {
         }
         qDebug() << "alive: " << alive[Btn->index];
         }
+        */
 }
 
 void Battle::on_ExitButton_clicked()

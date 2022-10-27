@@ -19,7 +19,16 @@ public:
 
     void getTurn(Point P) {
         qDebug() << "Bot recieved move: " << P.x << ' ' << P.y;
-        emit turnChecked(Result::Miss);
+        if(ButtonField_en[P.x][P.y]->ship && alive[ButtonField_en[P.x][P.y]->index] <= 1){
+            alive[ButtonField_en[P.x][P.y]->index] -= 1;
+            emit turnChecked(Result::Kill);
+        }
+        else if (ButtonField_en[P.x][P.y]->ship) {
+            alive[ButtonField_en[P.x][P.y]->index] -= 1;
+            emit turnChecked(Result::Hit);
+
+        } else
+            emit turnChecked(Result::Miss);
         makeTurn();
      }
     void getRes(Result r) {
@@ -29,8 +38,9 @@ public:
 
     void makeTurn() {
         Point P;
-        P.x  = QRandomGenerator::global()->generate();
-        P.y = QRandomGenerator::global()->generate();
+        P.x  = (uint32_t) QRandomGenerator::global()->generate() % 10;
+        P.y = (uint32_t) QRandomGenerator::global()->generate() % 10;
+        qDebug() << "Bot send: " << P.x << ' ' << P.y;
         emit turnMade(P);
     }
     int alive[10];
@@ -59,57 +69,62 @@ public:
             ButtonField_en[n+1][8]->index = iteration;
             alive[iteration] = 4;
         }
-        iteration -= 1;
+        iteration += 1;
         for(int n = 0; n < 3; n++){
             ButtonField_en[0+n][3]->ship = true;
             ButtonField_en[0+n][3]->index = iteration;
             alive[iteration] = 3;
         }
-        iteration -= 1;
+        iteration += 1;
         for(int n = 0; n < 3; n++){
             ButtonField_en[9][4+n]->ship = true;
             ButtonField_en[9][4+n]->index = iteration;
             alive[iteration] = 3;
         }
-        iteration -= 1;
+        iteration += 1;
         for(int n = 0; n < 2; n++){
             ButtonField_en[4+n][0]->ship = true;
             ButtonField_en[4+n][0]->index = iteration;
             alive[iteration] = 2;
         }
-        iteration -= 1;
+        iteration += 1;
         for(int n = 0; n < 2; n++){
             ButtonField_en[6+n][7]->ship = true;
             ButtonField_en[6+n][7]->index = iteration;
             alive[iteration] = 2;
         }
-        iteration -= 1;
+        iteration += 1;
         for(int n = 0; n < 2; n++){
             ButtonField_en[1][5+n]->ship = true;
             ButtonField_en[1][5+n]->index = iteration;
             alive[iteration] = 2;
         }
-        iteration -= 1;
+        iteration += 1;
 
         ButtonField_en[5][4]->ship = true;
         ButtonField_en[5][4]->index = iteration;
         alive[iteration] = 1;
-        iteration -= 1;
+
+        iteration += 1;
 
         ButtonField_en[6][9]->ship = true;
         ButtonField_en[6][9]->index = iteration;
         alive[iteration] = 1;
-        iteration -= 1;
+
+        iteration += 1;
 
         ButtonField_en[8][1]->ship = true;
         ButtonField_en[8][1]->index = iteration;
         alive[iteration] = 1;
-        iteration -= 1;
+
+        iteration += 1;
+
 
         ButtonField_en[9][8]->ship = true;
         ButtonField_en[9][8]->index = iteration;
+
         alive[iteration] = 1;
-        iteration -= 1;
+
     }
 
 };

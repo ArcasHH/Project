@@ -233,11 +233,11 @@ void CreateField::on_pushButton_clear_clicked()
     }
 }
 void CreateField::checkready() {
-    if ((My && En))
+    if (!(My && En))
         return;
-    else if(num4 + num3 + num2 + num1 == 0){
+    else if(num4 + num3 + num2 + num1 != 0){
         ui->label_accept->setText("УРА");
-        game = new Battle(nullptr, C, t);
+        game = new Battle(nullptr, C, t, ButtonField);
         game->show();
         this->hide();
     }
@@ -246,7 +246,7 @@ void CreateField::checkready() {
 void CreateField::on_pushButton_accept_clicked()//CreateButton
 {
     checkready();
-    if(num4 + num3 + num2 + num1 == 0){
+    if(num4 + num3 + num2 + num1 != 0){
         ui->label_accept->setText("ЖДЕМ...");
         qDebug() << "New window";
     }
