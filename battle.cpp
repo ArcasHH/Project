@@ -31,7 +31,6 @@ Battle::Battle(QWidget *parent, controller *control_in, int turn, FieldCell *** 
 }
 
 void Battle::setTurnLabel(int turn) {
-
     QString t = turn ? "ВАШ ХОД" : "ХОД ВРАГА";
     ui->label_turn->setText(t);
 }
@@ -60,20 +59,20 @@ void Battle::readRes(Result isHit) {
 
 void Battle::readP(Point P) {
     ui->label_win->setText("recieved p: " + QString::number(P.x) + ' ' + QString::number(P.y));
-    qDebug() << P.x << ' ' << P.y;
-    //qDebug() << "rerererererere" << alive[ButtonField[P.x][P.y]->index];
+    //qDebug() << P.x << ' ' << P.y;
 //    ui->responce->setText(tr("recived p: %1 %1").arg(P.x).arg(P.y));
-    if (ButtonField[P.x][P.y]->ship) {
-       control->sendFeedback(Result::Hit);
-       //alive[ButtonField[Px][Py]->index] -=1;
-       //if(alive[ButtonField[P.x][P.y]->index]<= 0)
-           //control->sendFeedback(Result::Kill);
 
+    if (ButtonField[P.x][P.y]->ship) {
+        ButtonField[P.x][P.y]->setStyleSheet("background-color: black");
+        control->sendFeedback(Result::Hit);
     }
-    else
+    else{
+        ButtonField[P.x][P.y]->setStyleSheet("background-color: white");
         control->sendFeedback(Result::Miss);
+    }
 
     setTurnLabel(1);
+
 }
 
 Battle::~Battle()
@@ -125,17 +124,14 @@ void Battle::buttonClicked_en() {
 
     QObject *Sender = QObject::sender();
     FieldCell *Btn = static_cast<FieldCell*>(Sender);
-    qDebug() << "Pressed: " << Btn->x << ' ' << Btn->y << ' ' << Btn->index;
+    //qDebug() << "Pressed: " << Btn->x << ' ' << Btn->y << ' ' << Btn->index;
     Px = Btn->x;
     Py = Btn->y;
 
     Point P;
     P.x = Px;
     P.y = Py;
-    if(alive[0]<=0 && alive[1]<=0 && alive[2]<=0 && alive[3]<=0 && alive[4]<=0 && alive[5]<=0 && alive[6]<=0 &&
-            alive[7]<=0 && alive[8]<=0 && alive[9]<=0){
-        QMessageBox::information(this, "","УРА!!!ПОБЕДА!!!!");
-     }
+
     control->sendTurn(P);
 
     //contorller->sendTurn(Point(i, j));

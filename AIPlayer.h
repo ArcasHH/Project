@@ -17,7 +17,7 @@ signals:
 
 public:
 
-    void getTurn(Point P) {
+    void getTurn(Point P) { //отправка ботом результата о нажатой игроком кнопки
         qDebug() << "Bot recieved move: " << P.x << ' ' << P.y;
         if(ButtonField_en[P.x][P.y]->ship && alive[ButtonField_en[P.x][P.y]->index] <= 1){
             alive[ButtonField_en[P.x][P.y]->index] -= 1;
@@ -36,13 +36,14 @@ public:
         qDebug() << "Bot recieved res: " << R;
     }
 
-    void makeTurn() {
+    void makeTurn() {//ход бота(пока рандомный)
         Point P;
         P.x  = (uint32_t) QRandomGenerator::global()->generate() % 10;
         P.y = (uint32_t) QRandomGenerator::global()->generate() % 10;
         qDebug() << "Bot send: " << P.x << ' ' << P.y;
         emit turnMade(P);
     }
+
     int alive[10];
     int iteration = 0;
 
