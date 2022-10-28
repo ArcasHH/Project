@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>МОРСКОЙ БОЙ</string>
   </property>
   <widget class="QLabel" name="label_your">
    <property name="geometry">
@@ -119,6 +119,9 @@
      <width>80</width>
      <height>21</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 240, 245);</string>
    </property>
    <property name="text">
     <string>ВЫХОД</string>

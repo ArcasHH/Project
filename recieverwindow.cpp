@@ -17,6 +17,7 @@ RecieverWindow::RecieverWindow(QWidget *parent) :
     ui(new Ui::RecieverWindow)
 {
     ui->setupUi(this);
+    this->setStyleSheet("background-color:rgb(150, 205, 205)");
     prepareLayout();
 }
 
@@ -35,8 +36,6 @@ void RecieverWindow::prepareLayout() {
     mainLayout->addWidget(ui->StatusLabel);
     mainLayout->addLayout(buttonLayout);
     setLayout(mainLayout);
-
-    setWindowTitle(tr("Broadcast Receiver"));
 }
 
 void RecieverWindow::startListen() {

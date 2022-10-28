@@ -13,6 +13,7 @@ CreateField::CreateField(QWidget *parent, controller *c, int turn) :
     C{c}, t{turn}
 {
     ui->setupUi(this);
+    this->setStyleSheet("background-color:rgb(150, 205, 205)");
 
     connect(ui->pushButton_accept, &QPushButton::clicked, this, &CreateField::fieldCreated);
     connect(C, &controller::fReady, this, &CreateField::enemyFieldCreated);
@@ -125,7 +126,7 @@ void CreateField::buttonClicked() {
                 }
             }
             for (int n = 0; n != size; n++) {
-                ButtonField[i+n][j]->setStyleSheet("background-color: red");
+                ButtonField[i+n][j]->setStyleSheet("background-color: rgb(205, 96, 144)");
                 ButtonField[i+n][j]->ship = true;
                 qDebug() << "it: " << iteration;
                 ButtonField[i+n][j]->index = iteration;
@@ -164,7 +165,7 @@ void CreateField::buttonClicked() {
                 }
             }
             for (int n = 0; n != size; ++n) {
-                ButtonField[i][j+n]->setStyleSheet("background-color: red");
+                ButtonField[i][j+n]->setStyleSheet("background-color: rgb(205, 96, 144)");
                 ButtonField[i][j+n]->ship = true;
                 ButtonField[i][j+n]->index = iteration;
             }
@@ -251,5 +252,5 @@ void CreateField::on_pushButton_accept_clicked()//CreateButton
         qDebug() << "New window";
     }
     else
-        QMessageBox::warning(this, "", "НЕ ВСЕ КОРАБЛИ НА ПОЛЕ БОЯ (если не влезают, то очистите поле и попробуйте снова");
+        QMessageBox::warning(this, "SEA BATTLE", "НЕ ВСЕ КОРАБЛИ НА ПОЛЕ БОЯ (если не влезают, то очистите поле и попробуйте снова");
 }

@@ -32,15 +32,13 @@ SenderWindow::SenderWindow(QWidget *parent) :
     ui(new Ui::SenderWindow)
 {
     ui->setupUi(this);
+    this->setStyleSheet("background-color:rgb(150, 205, 205)");
     prepareLayout();
 }
 
 void SenderWindow::prepareLayout() {
     ui->StatusLabel->setText("Ready to broadcast datagrams on port 45454");
     ui->StatusLabel->setWordWrap(true);
-
-    setWindowTitle(tr("Broadcast Sender"));
-
 
     Listener = new QTcpServer(this);
     if (!Listener->listen()) {

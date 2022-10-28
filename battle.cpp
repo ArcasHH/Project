@@ -6,21 +6,18 @@
 #include <QDebug>
 #include <QMessageBox>
 
-int Px = 0;
-int Py = 0;
-bool win = false;
-int num_alive = 10;
-int num_killed = 0;
+
 
 Battle::Battle(QWidget *parent, controller *control_in, int turn, FieldCell *** Field, int *alive_in) :
     QWidget(parent),
     ui(new Ui::Battle),
+
     alive(alive_in),
     ButtonField{Field},
     control(control_in)
 {
     ui->setupUi(this);
-
+    this->setStyleSheet("background-color:rgb(150, 205, 205)");
     connect(control, &controller::resReady, this, &Battle::readRes);
     connect(control, &controller::pReady, this, &Battle::readP);
 
@@ -42,23 +39,23 @@ void Battle::readRes(Result isHit) {
 
     switch (isHit) {
     case Result::Miss:
-        ButtonField_enemy[Px][Py]->setStyleSheet("background-color: white");
+        ButtonField_enemy[Px][Py]->setStyleSheet("background-color: rgb(174, 238, 238)");
         ui->label_act->setText("МИМО...");
 //        this->setEnabled(false);
         setTurnLabel(0);
         break;
     case Result::Hit:
-        ButtonField_enemy[Px][Py]->setStyleSheet("background-color: red");
+        ButtonField_enemy[Px][Py]->setStyleSheet("background-color: rgb(205, 96, 144)");
         ui->label_act->setText("РАНИЛ!");
 //        this->setEnabled(true);
         setTurnLabel(1);
         break;
     case Result::Kill:
-        ButtonField_enemy[Px][Py]->setStyleSheet("background-color: black");
+        ButtonField_enemy[Px][Py]->setStyleSheet("background-color: rgb(139, 58, 98)");
         ui->label_act->setText("УБИЛ!!!");
         --num_alive;
         if(num_alive <= 0){
-            QMessageBox::information(nullptr, "", "УРААА!!!ПОБЕДАА!!!!");
+            QMessageBox::information(nullptr, "SEA BATTLE", "УРААА!!!ПОБЕДАА!!!!");
             ui->label_win->setText("УРААА!!!ПОБЕДАА!!!!");
         }
 
@@ -83,22 +80,22 @@ void Battle::readP(Point P) {
         alive[Cell->index] -= 1;
         setTurnLabel(0);
         if (alive[Cell->index] <= 0) {
-            Cell->setStyleSheet("background-color: black");
+            Cell->setStyleSheet("background-color: rgb(139, 58, 98)");
             control->sendFeedback(Result::Kill);
             ++num_killed;
             if (num_killed >= 10) {
-                QMessageBox::information(nullptr, "", "ПОРАЖЕНИЕ(((");
+                QMessageBox::information(nullptr, "SEA BATTLE", "ПОРАЖЕНИЕ(((");
                 ui->label_win->setText("ВЫ ПРОИГРАЛИ...");
             }
         } else {
-            Cell->setStyleSheet("background-color: rgb(140, 0, 0)");
+            Cell->setStyleSheet("background-color: rgb(205, 96, 144)");
             control->sendFeedback(Result::Hit);
         }
     } else {
         for (int i = 0; i != 10; ++i)
             qDebug() << alive[i];
                 qDebug() << '\n';
-        Cell->setStyleSheet("background-color: white");
+        Cell->setStyleSheet("background-color: rgb(174, 238, 238)");
         setTurnLabel(1);
         control->sendFeedback(Result::Miss);
     }

@@ -9,6 +9,7 @@ Server::Server(QWidget *parent) :
     ui(new Ui::Server)
 {
     ui->setupUi(this);
+    this->setStyleSheet("background-color:rgb(150, 205, 205)");
 }
 
 Server::~Server()

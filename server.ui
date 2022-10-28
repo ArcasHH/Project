@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>ОНЛАЙН</string>
   </property>
   <widget class="QPushButton" name="back">
    <property name="geometry">
@@ -21,6 +21,9 @@
      <width>80</width>
      <height>21</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 240, 245);</string>
    </property>
    <property name="text">
     <string>НАЗАД</string>
@@ -38,6 +41,9 @@
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
      <widget class="QPushButton" name="pushButton_reciever">
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(255, 240, 245);</string>
+      </property>
       <property name="text">
        <string>СВОЙ СЕРВЕР</string>
       </property>
@@ -45,6 +51,9 @@
     </item>
     <item>
      <widget class="QPushButton" name="pushButton_sender">
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(255, 240, 245);</string>
+      </property>
       <property name="text">
        <string>ПРИСОЕДИНИТЬСЯ</string>
       </property>

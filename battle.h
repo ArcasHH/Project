@@ -38,6 +38,12 @@ private:
     FieldCell ** *ButtonField_enemy;
     FieldCell ** *ButtonField;
    // CreateFieldWindow *field;
+
+    int Px = 0;
+    int Py = 0;
+    bool win = false;
+    int num_alive = 10;
+    int num_killed = 0;
 };
 
 #endif // BATTLE_H

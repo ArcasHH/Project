@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>RECEIVER</string>
   </property>
   <widget class="QLabel" name="label_server">
    <property name="geometry">
@@ -58,6 +58,9 @@
      <pointsize>10</pointsize>
     </font>
    </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 240, 245);</string>
+   </property>
    <property name="text">
     <string>ВЫХОД</string>
    </property>
@@ -75,6 +78,9 @@
     <font>
      <pointsize>10</pointsize>
     </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 240, 245);</string>
    </property>
    <property name="text">
     <string>ПОДКЛЮЧИТЬСЯ</string>

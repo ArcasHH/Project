@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Menu</string>
+   <string>МЕНЮ</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QPushButton" name="pushButton_exit">
@@ -23,11 +23,17 @@
       <height>21</height>
      </rect>
     </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(255, 240, 245);</string>
+    </property>
     <property name="text">
      <string>ВЫХОД</string>
     </property>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>210</x>
@@ -64,6 +70,12 @@
      </item>
      <item>
       <widget class="QPushButton" name="pushButton_solo">
+       <property name="autoFillBackground">
+        <bool>false</bool>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(255, 240, 245);</string>
+       </property>
        <property name="text">
         <string>ОДИНОЧНАЯ</string>
        </property>
@@ -84,6 +96,12 @@
      </item>
      <item>
       <widget class="QPushButton" name="pushButton_online">
+       <property name="autoFillBackground">
+        <bool>false</bool>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(255, 240, 245);</string>
+       </property>
        <property name="text">
         <string>ОНЛАЙН</string>
        </property>
@@ -101,6 +119,12 @@
      <height>20</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string> </string>
+    </property>
+   </widget>
+   <addaction name="menu"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
