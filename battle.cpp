@@ -9,10 +9,13 @@
 int Px = 0;
 int Py = 0;
 bool win = false;
+int num_alive = 10;
+int num_killed = 0;
 
-Battle::Battle(QWidget *parent, controller *control_in, int turn, FieldCell *** Field) :
+Battle::Battle(QWidget *parent, controller *control_in, int turn, FieldCell *** Field, int *alive_in) :
     QWidget(parent),
     ui(new Ui::Battle),
+    alive(alive_in),
     ButtonField{Field},
     control(control_in)
 {
@@ -21,17 +24,15 @@ Battle::Battle(QWidget *parent, controller *control_in, int turn, FieldCell *** 
     connect(control, &controller::resReady, this, &Battle::readRes);
     connect(control, &controller::pReady, this, &Battle::readP);
 
-    setTurnLabel(turn);
-
     generateEnemyField();
     CreateYourField();
-    //alive = ptr;
-//    for (int i = 0; i != 10; ++i)
-//        qDebug() << alive[i];
+    setTurnLabel(turn);
+
 }
 
-void Battle::setTurnLabel(int turn) {
+void Battle::setTurnLabel(bool turn) {
     QString t = turn ? "ВАШ ХОД" : "ХОД ВРАГА";
+    setEnabled(turn);
     ui->label_turn->setText(t);
 }
 
@@ -43,18 +44,31 @@ void Battle::readRes(Result isHit) {
     case Result::Miss:
         ButtonField_enemy[Px][Py]->setStyleSheet("background-color: white");
         ui->label_act->setText("МИМО...");
+//        this->setEnabled(false);
+        setTurnLabel(0);
         break;
     case Result::Hit:
         ButtonField_enemy[Px][Py]->setStyleSheet("background-color: red");
         ui->label_act->setText("РАНИЛ!");
+//        this->setEnabled(true);
+        setTurnLabel(1);
         break;
     case Result::Kill:
         ButtonField_enemy[Px][Py]->setStyleSheet("background-color: black");
         ui->label_act->setText("УБИЛ!!!");
+        --num_alive;
+        if(num_alive <= 0){
+            QMessageBox::information(nullptr, "", "УРААА!!!ПОБЕДАА!!!!");
+            ui->label_win->setText("УРААА!!!ПОБЕДАА!!!!");
+        }
+
+//        this->setEnabled(true);
+        setTurnLabel(1);
         break;
     }
 
-    setTurnLabel(0);
+
+    //setTurnLabel(0);
 }
 
 void Battle::readP(Point P) {
@@ -62,16 +76,33 @@ void Battle::readP(Point P) {
     //qDebug() << P.x << ' ' << P.y;
 //    ui->responce->setText(tr("recived p: %1 %1").arg(P.x).arg(P.y));
 
-    if (ButtonField[P.x][P.y]->ship) {
-        ButtonField[P.x][P.y]->setStyleSheet("background-color: black");
-        control->sendFeedback(Result::Hit);
-    }
-    else{
-        ButtonField[P.x][P.y]->setStyleSheet("background-color: white");
+
+    FieldCell *Cell = ButtonField[P.x][P.y];
+
+    if (Cell->ship) {
+        alive[Cell->index] -= 1;
+        setTurnLabel(0);
+        if (alive[Cell->index] <= 0) {
+            Cell->setStyleSheet("background-color: black");
+            control->sendFeedback(Result::Kill);
+            ++num_killed;
+            if (num_killed >= 10) {
+                QMessageBox::information(nullptr, "", "ПОРАЖЕНИЕ(((");
+                ui->label_win->setText("ВЫ ПРОИГРАЛИ...");
+            }
+        } else {
+            Cell->setStyleSheet("background-color: rgb(140, 0, 0)");
+            control->sendFeedback(Result::Hit);
+        }
+    } else {
+        for (int i = 0; i != 10; ++i)
+            qDebug() << alive[i];
+                qDebug() << '\n';
+        Cell->setStyleSheet("background-color: white");
+        setTurnLabel(1);
         control->sendFeedback(Result::Miss);
     }
 
-    setTurnLabel(1);
 
 }
 
@@ -111,20 +142,11 @@ void Battle::CreateYourField(){
         }
 }
 
-// on readP(i, j) {
-//    if Filed[i][j] == ship
-//      if alive[Fiedld[i][j].index] < 0
-//         controller->sendRes(kill)
-//      else
-//         controller->sendRes(hit)
-//    else
-//      controller->sendRes(miss)
-
 void Battle::buttonClicked_en() {
 
     QObject *Sender = QObject::sender();
     FieldCell *Btn = static_cast<FieldCell*>(Sender);
-    //qDebug() << "Pressed: " << Btn->x << ' ' << Btn->y << ' ' << Btn->index;
+    Btn->setEnabled(false);
     Px = Btn->x;
     Py = Btn->y;
 
@@ -134,42 +156,9 @@ void Battle::buttonClicked_en() {
 
     control->sendTurn(P);
 
-    //contorller->sendTurn(Point(i, j));
-    // }
-
-    // This logic goes to readRes {
-    //  if res == hit:
-    //     draw red:
-    //  else if res == kill:
-    //     draw black;
-    //  else
-    //     draw white;
-    /*
-    if(Btn->ship == false){
-        Btn->setStyleSheet("background-color: white");
-        ui->label->setText("МИМО...");
-    }
-    else if (Btn->ship == true){
-        Btn->setStyleSheet("background-color: red");
-        ui->label->setText("РАНИЛ!");
-        // TODO remake
-        alive[Btn->index] -= 1;
-        //Btn->ship = false;
-//        ButtonField_enemy[i+1][j+1]->setStyleSheet("background-color: rgb(100, 100, 100)");
-//        ButtonField_enemy[i+1][j-1]->setStyleSheet("background-color: rgb(100, 100, 100)");
-//        ButtonField_enemy[i-1][j+1]->setStyleSheet("background-color: rgb(100, 100, 100)");
-//        ButtonField_enemy[i-1][j-1]->setStyleSheet("background-color: rgb(100, 100, 100)");
-        if( alive[Btn->index] <= 0){
-            Btn->setStyleSheet("background-color: black");
-            ui->label->setText("УБИЛ!");
-        }
-        qDebug() << "alive: " << alive[Btn->index];
-        }
-        */
 }
 
 void Battle::on_ExitButton_clicked()
 {
     close();
 }
-

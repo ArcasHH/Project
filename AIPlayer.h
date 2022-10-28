@@ -17,23 +17,45 @@ signals:
 
 public:
 
+
+
     void getTurn(Point P) { //отправка ботом результата о нажатой игроком кнопки
         qDebug() << "Bot recieved move: " << P.x << ' ' << P.y;
-        if(ButtonField_en[P.x][P.y]->ship && alive[ButtonField_en[P.x][P.y]->index] <= 1){
-            alive[ButtonField_en[P.x][P.y]->index] -= 1;
-            emit turnChecked(Result::Kill);
-        }
-        else if (ButtonField_en[P.x][P.y]->ship) {
-            alive[ButtonField_en[P.x][P.y]->index] -= 1;
-            emit turnChecked(Result::Hit);
 
-        } else
+        if (ButtonField_en[P.x][P.y]->ship) {
+            alive[ButtonField_en[P.x][P.y]->index] -= 1;
+            if (alive[ButtonField_en[P.x][P.y]->index] <= 0){
+                emit turnChecked(Result::Kill);
+            }
+            else
+                emit turnChecked(Result::Hit);
+        } else {
             emit turnChecked(Result::Miss);
-        makeTurn();
+            makeTurn();
+        }
+
+
+
+//        if(ButtonField_en[P.x][P.y]->ship && alive[ButtonField_en[P.x][P.y]->index] <= 1){
+//            alive[ButtonField_en[P.x][P.y]->index] -= 1;
+//            emit turnChecked(Result::Kill);
+//        }
+//        else if (ButtonField_en[P.x][P.y]->ship) {
+//            alive[ButtonField_en[P.x][P.y]->index] -= 1;
+//            emit turnChecked(Result::Hit);
+
+//        } else {
+//            emit turnChecked(Result::Miss);
+//            makeTurn();
+//        }
      }
     void getRes(Result r) {
-         QString R = r == Result::Hit ? "Hit" : r == Result::Kill ? "Kill" : "Miss";
+        QString R = r == Result::Hit ? "Hit" : r == Result::Kill ? "Kill" : "Miss";
         qDebug() << "Bot recieved res: " << R;
+
+        if (r == Result::Miss)
+            return;
+        makeTurn();
     }
 
     void makeTurn() {//ход бота(пока рандомный)

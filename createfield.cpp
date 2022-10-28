@@ -166,7 +166,7 @@ void CreateField::buttonClicked() {
             for (int n = 0; n != size; ++n) {
                 ButtonField[i][j+n]->setStyleSheet("background-color: red");
                 ButtonField[i][j+n]->ship = true;
-                Btn->index = iteration;
+                ButtonField[i][j+n]->index = iteration;
             }
             if(iteration < 10){
                 alive[iteration] = size;
@@ -235,9 +235,9 @@ void CreateField::on_pushButton_clear_clicked()
 void CreateField::checkready() {
     if (!(My && En))
         return;
-    else if(num4 + num3 + num2 + num1 != 0){
+    else if(num4 + num3 + num2 + num1 == 0){
         ui->label_accept->setText("УРА");
-        game = new Battle(nullptr, C, t, ButtonField);
+        game = new Battle(nullptr, C, t, ButtonField, alive);
         game->show();
         this->hide();
     }
@@ -246,11 +246,10 @@ void CreateField::checkready() {
 void CreateField::on_pushButton_accept_clicked()//CreateButton
 {
     checkready();
-    if(num4 + num3 + num2 + num1 != 0){
+    if(num4 + num3 + num2 + num1 == 0){
         ui->label_accept->setText("ЖДЕМ...");
         qDebug() << "New window";
     }
     else
         QMessageBox::warning(this, "", "НЕ ВСЕ КОРАБЛИ НА ПОЛЕ БОЯ (если не влезают, то очистите поле и попробуйте снова");
 }
-

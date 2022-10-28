@@ -16,7 +16,7 @@ class Battle : public QWidget
     Q_OBJECT
 
 public:
-    explicit Battle(QWidget *parent, controller *control_in, int turn, FieldCell ***);
+    explicit Battle(QWidget *parent, controller *control_in, int turn, FieldCell ***, int *alive_in);
     ~Battle();
     void generateEnemyField();
     void CreateYourField();
@@ -34,7 +34,7 @@ private slots:
 private:
     Ui::Battle *ui;
     controller *control = nullptr;
-    void setTurnLabel(int turn);
+    void setTurnLabel(bool turn);
     FieldCell ** *ButtonField_enemy;
     FieldCell ** *ButtonField;
    // CreateFieldWindow *field;
