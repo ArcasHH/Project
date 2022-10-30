@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>МЕНЮ</string>
+   <string>MENU</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QPushButton" name="pushButton_exit">
@@ -30,7 +30,7 @@
      <string notr="true">background-color: rgb(255, 240, 245);</string>
     </property>
     <property name="text">
-     <string>ВЫХОД</string>
+     <string>EXIT</string>
     </property>
    </widget>
    <widget class="QWidget" name="layoutWidget">
@@ -51,7 +51,7 @@
         </font>
        </property>
        <property name="text">
-        <string>МЕНЮ</string>
+        <string>MENU</string>
        </property>
       </widget>
      </item>
@@ -77,7 +77,7 @@
         <string notr="true">background-color: rgb(255, 240, 245);</string>
        </property>
        <property name="text">
-        <string>ОДИНОЧНАЯ</string>
+        <string>SOLO GAME</string>
        </property>
       </widget>
      </item>
@@ -103,7 +103,7 @@
         <string notr="true">background-color: rgb(255, 240, 245);</string>
        </property>
        <property name="text">
-        <string>ОНЛАЙН</string>
+        <string>ONLAIN</string>
        </property>
       </widget>
      </item>
@@ -121,7 +121,7 @@
    </property>
    <widget class="QMenu" name="menu">
     <property name="title">
-     <string> </string>
+     <string/>
     </property>
    </widget>
    <addaction name="menu"/>

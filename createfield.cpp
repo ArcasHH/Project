@@ -8,7 +8,7 @@
 #include <QMessageBox>
 
 CreateField::CreateField(QWidget *parent, controller *c, int turn) :
-    QWidget(parent),
+    QWidget(nullptr),
     ui(new Ui::CreateWindow),
     C{c}, t{turn}
 {
@@ -21,17 +21,18 @@ CreateField::CreateField(QWidget *parent, controller *c, int turn) :
     generateButtons();
     ui->radioButton_vertical->setChecked(true);
 
-    num4 = 1;
+    num4 = 1;//amount ships of suh type
     num3 = 2;
     num2 = 3;
     num1 = 4;
-    iteration = 0;
-    for (int i = 0; i != 10; ++i)
+    iteration = 0;//for creating
+
+    for (int i = 0; i != 10; ++i)//massive of ship lengths
         alive[i] = 999;
 }
 
 void CreateField::fieldCreated() {
-    C->sendFieldReady();//контроллер
+    C->sendFieldReady();
     ui->pushButton_accept->setDisabled(true);
     My = true;
     checkready();
@@ -42,14 +43,13 @@ void CreateField::enemyFieldCreated() {
     checkready();
 }
 
-void CreateField::on_pushButton_back_clicked()//сделать нормальный выход в меню
+void CreateField::on_pushButton_back_clicked()
 {
     ui->pushButton_clear->click();
-    //Menu::window->show();
     close();
 }
 
-void CreateField::generateButtons() {
+void CreateField::generateButtons() {//creating of field
     QGridLayout &Field = *ui->fieldGrid;
 
     ButtonField = new FieldCell**[10];
@@ -60,7 +60,7 @@ void CreateField::generateButtons() {
         for (int j = 0; j != 10; j++) {
             FieldCell *Btn = new FieldCell(i, j);
             Btn->setFixedSize(50, 50);
-            Btn->setText(QString::number(i) + QString::number(j));
+            //Btn->setText(QString::number(i) + QString::number(j));
             Btn->setStyleSheet("background-color: grey");
             ButtonField[i][j] = Btn;
             Btn->available = true;
@@ -75,14 +75,12 @@ void CreateField::buttonClicked() {
     FieldCell *Btn = static_cast<FieldCell*>(Sender);
     qDebug() << "Pressed: " << Btn->x << ' ' << Btn->y;
     int size = 0;
-    bool a = true;
+    bool a = true;//ability to place a ship
     int i = Btn->x;
     int j = Btn->y;
     int num;
 
-    //создай структуру Number_of_ships с int length и int amount/ num.length заменит size
-                                                                  //amount будет содержать кол-во короблей, которые можно поставить
-    if( ui->radioButton_4->isChecked()){
+    if( ui->radioButton_4->isChecked()){//choise of length of ship
         size = 4;
         num = num4;
     }
@@ -100,7 +98,7 @@ void CreateField::buttonClicked() {
     }
 
     if( (i + size > 10 && ui->radioButton_vertical->isChecked())
-            || (j + size > 10 && ui->radioButton_gorizontal->isChecked()) || num <=0)//выход из функции
+            || (j + size > 10 && ui->radioButton_gorizontal->isChecked()) || num <=0)//stop if ship out
         return ;
 
     if(ui->radioButton_vertical->isChecked() && size != 0 && size > 0){
@@ -108,7 +106,7 @@ void CreateField::buttonClicked() {
             if(!ButtonField[i+n][j]->available)
                 a = false;
         }
-        if(a){
+        if(a){//when drawing a ship, it is not superimposed on non-permissible cells
             for (int n = -1; n != size+1; n++) {
                 if(i + n >= 0){
                     if( j - 1 >= 0 && i + n <= 9){
@@ -147,7 +145,7 @@ void CreateField::buttonClicked() {
             if(!ButtonField[i][j+n]->available)
                 a = false;
         }
-        if(a){
+        if(a){//when drawing a ship, it is not superimposed on non-permissible cells
             for (int n = -1; n != size+1; n++) {
                 if(j + n >= 0){
                     if( i - 1 >= 0 && j + n <= 9){
@@ -197,21 +195,10 @@ void CreateField::buttonClicked() {
         new_label = QString::number(num1, 'g', 20);
         ui->label_1->setText(new_label);
     }
-   //qDebug() << "Pressed: " <<alive[1]<<alive[2]<<alive[3]<<alive[4]<<alive[5]<<alive[6]<<alive[7]<<alive[8]<<alive[9]<< alive[10];
+   //for(int i=0; i<10; i++)
+       //qDebug() << alive[i];
 }
 
-CreateField::~CreateField()
-{
-    for (int i = 0; i != 10; ++i)
-        for (int j = 0; j != 10; ++j)
-            delete ButtonField[i][j];
-
-    for (int i = 0; i != 10; ++i)
-        delete[] ButtonField[i];
-    delete[] ButtonField;
-
-    delete ui;
-}
 
 void CreateField::on_pushButton_clear_clicked()
 {
@@ -237,7 +224,7 @@ void CreateField::checkready() {
     if (!(My && En))
         return;
     else if(num4 + num3 + num2 + num1 == 0){
-        ui->label_accept->setText("УРА");
+        ui->label_accept->setText("EEEE");
         game = new Battle(nullptr, C, t, ButtonField, alive);
         game->show();
         this->hide();
@@ -248,9 +235,20 @@ void CreateField::on_pushButton_accept_clicked()//CreateButton
 {
     checkready();
     if(num4 + num3 + num2 + num1 == 0){
-        ui->label_accept->setText("ЖДЕМ...");
-        qDebug() << "New window";
+        ui->label_accept->setText("WAITING...");
     }
     else
-        QMessageBox::warning(this, "SEA BATTLE", "НЕ ВСЕ КОРАБЛИ НА ПОЛЕ БОЯ (если не влезают, то очистите поле и попробуйте снова");
+        QMessageBox::warning(this, "SEA BATTLE", "NOT ALL SHIPS ARE ON THE BATTLEFIELD (if they don't fit, then clear the field and try again");
+}
+
+CreateField::~CreateField()
+{
+    for (int i = 0; i != 10; ++i)
+        for (int j = 0; j != 10; ++j)
+            delete ButtonField[i][j];
+    for (int i = 0; i != 10; ++i)
+        delete[] ButtonField[i];
+    delete[] ButtonField;
+
+    delete ui;
 }

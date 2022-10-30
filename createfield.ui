@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>СОЗДАНИЕ ПОЛЯ</string>
+   <string>CREATE FIELD</string>
   </property>
   <widget class="QLabel" name="label_create">
    <property name="geometry">
@@ -28,7 +28,7 @@
     </font>
    </property>
    <property name="text">
-    <string>РАСПОЛОЖИТЕ СВОИ КОРАБЛИ:</string>
+    <string>POSITION YOUR SHIPS:</string>
    </property>
   </widget>
   <widget class="QWidget" name="gridLayoutWidget">
@@ -55,7 +55,7 @@
     <string notr="true">background-color: rgb(255, 240, 245);</string>
    </property>
    <property name="text">
-    <string>НАЗАД В МЕНЮ</string>
+    <string>EXIT</string>
    </property>
   </widget>
   <widget class="QWidget" name="layoutWidget">
@@ -74,7 +74,7 @@
        <string notr="true">background-color: rgb(255, 240, 245);</string>
       </property>
       <property name="text">
-       <string>ОЧИСТИТЬ</string>
+       <string>CLEAR</string>
       </property>
      </widget>
     </item>
@@ -97,7 +97,7 @@
        <string notr="true">background-color: rgb(255, 240, 245);</string>
       </property>
       <property name="text">
-       <string>ПОДТВЕРДИТЬ</string>
+       <string>ACCEPT</string>
       </property>
      </widget>
     </item>
@@ -345,14 +345,14 @@
     <item>
      <widget class="QRadioButton" name="radioButton_vertical">
       <property name="text">
-       <string>ВЕРТИКАЛЬНО</string>
+       <string>VERTICAL</string>
       </property>
      </widget>
     </item>
     <item>
      <widget class="QRadioButton" name="radioButton_gorizontal">
       <property name="text">
-       <string>ГОРИЗОНТАЛЬНО</string>
+       <string>GORIZONTAL</string>
       </property>
      </widget>
     </item>

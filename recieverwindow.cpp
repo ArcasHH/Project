@@ -9,9 +9,6 @@
 #include <QtNetwork>
 #include <QtCore>
 
-
-
-
 RecieverWindow::RecieverWindow(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::RecieverWindow)
@@ -47,7 +44,6 @@ void RecieverWindow::startListen() {
         ui->StatusLabel->setText("Timeout.");
         return;
     }
-
     SharedData Data;
     QHostAddress Addr;
     int Size = UdpS.readDatagram(Data.getRaw(), Data.getSize(), &Addr);
@@ -71,7 +67,6 @@ void RecieverWindow::EstablishTCP(int Port, QHostAddress const &Addr) {
     TcpS = new QTcpSocket(this);
     // Open connection to read/write.
     TcpS->connectToHost(Addr.toString(), Port);
-
 }
 
 RecieverWindow::~RecieverWindow()
@@ -84,9 +79,7 @@ void RecieverWindow::on_QuitBtn_clicked()
     close();
 }
 
-
 void RecieverWindow::on_StartRecieve_clicked()
 {
     startListen();
 }
-

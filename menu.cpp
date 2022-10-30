@@ -9,14 +9,7 @@ Menu::Menu(QWidget *parent)
 {
     ui->setupUi(this);
     this->setStyleSheet("background-color:rgb(150, 205, 205)");
-
 }
-
-Menu::~Menu()
-{
-    delete ui;
-}
-
 
 void Menu::on_pushButton_online_clicked()
 {
@@ -25,16 +18,21 @@ void Menu::on_pushButton_online_clicked()
     game.exec();
 }
 
+void Menu::on_pushButton_solo_clicked()
+{
+    window = new CreateField(window, new AIController, 1);
+    connect(window, SIGNAL(destroyed()), this, SLOT (show()));
+    window->show();
+    this->hide();
+}
+
 void Menu::on_pushButton_exit_clicked()
 {
     close();
 }
 
-void Menu::on_pushButton_solo_clicked()
+Menu::~Menu()
 {
-
-    window = new CreateField(nullptr, new AIController, 1);
-    window->show();
-    this->hide();
+    delete ui;
 }
 

@@ -16,10 +16,7 @@ signals:
     void turnChecked(Result);
 
 public:
-
-
-
-    void getTurn(Point P) { //отправка ботом результата о нажатой игроком кнопки
+    void getTurn(Point P) { //computer
         qDebug() << "Bot recieved move: " << P.x << ' ' << P.y;
 
         if (ButtonField_en[P.x][P.y]->ship) {
@@ -33,46 +30,29 @@ public:
             emit turnChecked(Result::Miss);
             makeTurn();
         }
-
-
-
-//        if(ButtonField_en[P.x][P.y]->ship && alive[ButtonField_en[P.x][P.y]->index] <= 1){
-//            alive[ButtonField_en[P.x][P.y]->index] -= 1;
-//            emit turnChecked(Result::Kill);
-//        }
-//        else if (ButtonField_en[P.x][P.y]->ship) {
-//            alive[ButtonField_en[P.x][P.y]->index] -= 1;
-//            emit turnChecked(Result::Hit);
-
-//        } else {
-//            emit turnChecked(Result::Miss);
-//            makeTurn();
-//        }
      }
     void getRes(Result r) {
-        QString R = r == Result::Hit ? "Hit" : r == Result::Kill ? "Kill" : "Miss";
-        qDebug() << "Bot recieved res: " << R;
-
+        //QString R = r == Result::Hit ? "Hit" : r == Result::Kill ? "Kill" : "Miss";
+        //qDebug() << "Bot recieved res: " << R;
         if (r == Result::Miss)
             return;
         makeTurn();
     }
 
-    void makeTurn() {//ход бота(пока рандомный)
+    void makeTurn() {//to do the bot algorithm
         Point P;
         P.x  = (uint32_t) QRandomGenerator::global()->generate() % 10;
         P.y = (uint32_t) QRandomGenerator::global()->generate() % 10;
-        qDebug() << "Bot send: " << P.x << ' ' << P.y;
+        //qDebug() << "Bot send: " << P.x << ' ' << P.y;
         emit turnMade(P);
     }
-
     int alive[10];
     int iteration = 0;
 
     FieldCell ** *ButtonField_en;
 
-    void createField() {
-        for (int i = 0; i != 10; i++)
+    void createField() { //filling field with hands))
+        for (int i = 0; i != 10; ++i)
             alive[i] = 999;
 
         ButtonField_en = new FieldCell**[10];
@@ -147,9 +127,7 @@ public:
         ButtonField_en[9][8]->index = iteration;
 
         alive[iteration] = 1;
-
     }
-
 };
 
 #endif // AIPLAYER_H

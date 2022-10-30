@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>МОРСКОЙ БОЙ</string>
+   <string> SEA BATTLE</string>
   </property>
   <widget class="QLabel" name="label_your">
    <property name="geometry">
@@ -28,7 +28,7 @@
     </font>
    </property>
    <property name="text">
-    <string>ВАШЕ ПОЛЕ:</string>
+    <string>YOUR FIELD:</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_enemy">
@@ -46,7 +46,7 @@
     </font>
    </property>
    <property name="text">
-    <string>ПОЛЕ ВРАГА:</string>
+    <string>ENEMY FIELD:</string>
    </property>
   </widget>
   <widget class="QWidget" name="gridLayoutWidget">
@@ -80,7 +80,7 @@
     <rect>
      <x>140</x>
      <y>420</y>
-     <width>141</width>
+     <width>171</width>
      <height>51</height>
     </rect>
    </property>
@@ -90,7 +90,7 @@
     </font>
    </property>
    <property name="text">
-    <string>ВАШ ХОД</string>
+    <string>YOUR TURN</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_win">
@@ -108,7 +108,7 @@
     </font>
    </property>
    <property name="text">
-    <string>ЕЩЕ НЕ ПОБЕДА!!!</string>
+    <string>NOT A VICTORY YET!!</string>
    </property>
   </widget>
   <widget class="QPushButton" name="ExitButton">
@@ -124,7 +124,7 @@
     <string notr="true">background-color: rgb(255, 240, 245);</string>
    </property>
    <property name="text">
-    <string>ВЫХОД</string>
+    <string>EXIT</string>
    </property>
   </widget>
   <widget class="QLabel" name="label">

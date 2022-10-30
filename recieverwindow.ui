@@ -28,7 +28,7 @@
     </font>
    </property>
    <property name="text">
-    <string>СЕРВЕР</string>
+    <string>SERVER:</string>
    </property>
   </widget>
   <widget class="QLabel" name="StatusLabel">
@@ -62,7 +62,7 @@
     <string notr="true">background-color: rgb(255, 240, 245);</string>
    </property>
    <property name="text">
-    <string>ВЫХОД</string>
+    <string>EXIT</string>
    </property>
   </widget>
   <widget class="QPushButton" name="StartRecieve">
@@ -83,7 +83,7 @@
     <string notr="true">background-color: rgb(255, 240, 245);</string>
    </property>
    <property name="text">
-    <string>ПОДКЛЮЧИТЬСЯ</string>
+    <string>CONNECT</string>
    </property>
   </widget>
  </widget>
