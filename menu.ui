@@ -103,7 +103,7 @@
         <string notr="true">background-color: rgb(255, 240, 245);</string>
        </property>
        <property name="text">
-        <string>ONLAIN</string>
+        <string>ONLINE</string>
        </property>
       </widget>
      </item>

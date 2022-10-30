@@ -51,7 +51,8 @@ void Battle::readRes(Result isHit) {
         --num_alive;
         if(num_alive <= 0){
             QMessageBox::information(nullptr, "SEA BATTLE", "EEE!!!WIN!!!!");
-            ui->label_win->setText("EEE!!!YOU WIN!!!!");
+            //ui->label_win->setText("EEE!!!YOU WIN!!!!");
+            close();
         }
 //        this->setEnabled(true);
         setTurnLabel(1);
@@ -73,7 +74,8 @@ void Battle::readP(Point P) {
             ++num_killed;
             if (num_killed >= 10) {
                 QMessageBox::information(nullptr, "SEA BATTLE", "DEFEAT(((");
-                ui->label_win->setText("YOU DIED...");
+                //ui->label_win->setText("YOU DIED...");
+                close();
             }
         } else {
             Cell->setStyleSheet("background-color: rgb(205, 96, 144)");
@@ -98,7 +100,7 @@ void Battle::generateEnemyField() {
         for (int j = 0; j != 10; j++) {
             FieldCell *Btn = new FieldCell(i, j);
             Btn->setFixedSize(50, 50);
-            Btn->setText(QString::number(i) + QString::number(j));
+            //Btn->setText(QString::number(i) + QString::number(j));
             Btn->setStyleSheet("background-color: grey");
             ButtonField_enemy[i][j] = Btn;
             Btn->available = true;

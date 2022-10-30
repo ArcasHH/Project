@@ -64,6 +64,7 @@ void CreateField::generateButtons() {//creating of field
             Btn->setStyleSheet("background-color: grey");
             ButtonField[i][j] = Btn;
             Btn->available = true;
+            Btn->index = 42;
             Field.addWidget(Btn, i, j);
             connect(Btn, SIGNAL(clicked()), this, SLOT(buttonClicked()));
         }
