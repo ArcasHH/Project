@@ -34,6 +34,7 @@ CreateField::CreateField(QWidget *parent, controller *c, int turn) :
 void CreateField::fieldCreated() {
     C->sendFieldReady();
     ui->pushButton_accept->setDisabled(true);
+    ui->pushButton_clear->setDisabled(true);
     My = true;
     checkready();
 }
@@ -234,9 +235,9 @@ void CreateField::checkready() {
 
 void CreateField::on_pushButton_accept_clicked()//CreateButton
 {
-    checkready();
     if(num4 + num3 + num2 + num1 == 0){
         ui->label_accept->setText("WAITING...");
+        checkready();
     }
     else
         QMessageBox::warning(this, "SEA BATTLE", "NOT ALL SHIPS ARE ON THE BATTLEFIELD (if they don't fit, then clear the field and try again");
